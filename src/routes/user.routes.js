@@ -4,18 +4,17 @@ const UsersController = require("../controllers/UsersController");
 
 const usersRoutes = Router();
 
-
-function usersMiddleware(request, response, next){
+/*function usersMiddleware(request, response, next){
     console.log("Usuário passou pelo Middleware!");
     if(!request.body.isAdmin){
         return response.json({ message: "user unathorized..."})
     }
     next();
-}
+}*/
 
 const usersController = new UsersController();
 
-usersRoutes.use(usersMiddleware);
+//usersRoutes.use(usersMiddleware);
 
 usersRoutes.post("/", usersController.create);
 usersRoutes.put("/:id", usersController.update);
