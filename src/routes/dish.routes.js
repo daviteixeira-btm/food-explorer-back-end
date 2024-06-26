@@ -17,5 +17,6 @@ const dishesController = new DishesController();
 //dishesRoutes.use(usersMiddleware);
 
 dishesRoutes.post("/", dishesController.create);
+dishesRoutes.get("/:id", dishesController.show);
 
 module.exports = dishesRoutes;

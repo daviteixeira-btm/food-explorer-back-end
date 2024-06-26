@@ -54,6 +54,28 @@ class DishesController {
 
         response.json({ id: dish_id });
     }
+
+    async show(request, response){
+        const { id } = request.params;
+
+        const dish = await knex("dishes").where({ id }).first();
+
+        const dish_ingredients = await knex("dish_ingredients")
+            .where({ dish_id: id })
+            .join("ingredients", "dish_ingredients.ingredient_id", "ingredients.id")
+            .select("ingredients.ingredient_name");
+        
+        const dish_categories = await knex("dish_categories")
+            .where({ dish_id: id })
+            .join("categories", "dish_categories.category_id", "categories.id")
+            .select("categories.category_name");
+
+        return response.json({
+            ...dish,
+            ingredients: dish_ingredients.map(ingredient => ingredient.ingredient_name),
+            categories: dish_categories.map(category => category.category_name)
+        });
+    }
 }
 
 module.exports = DishesController;
